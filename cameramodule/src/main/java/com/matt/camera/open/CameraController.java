@@ -1,4 +1,4 @@
-package com.matt.camera.controller;
+package com.matt.camera.open;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -21,8 +21,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.matt.camera.FrameCallback;
 import com.matt.camera.Renderer;
+import com.matt.camera.controller.TextureController;
 import com.matt.camera.filter.AFilter;
 
 import java.io.IOException;

@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class KitkatCamera implements ICamera {
 
+    private static final String TAG = "KitkatCamera";
+
     private ICamera.Config mConfig;
     private Camera mCamera;
     private CameraSizeComparator sizeComparator;
@@ -59,7 +61,7 @@ public class KitkatCamera implements ICamera {
             Camera.Size pic=param.getPictureSize();
             mPicSize=new Point(pic.height,pic.width);
             mPreSize=new Point(pre.height,pre.width);
-            Log.e("wuwang","camera previewSize:"+mPreSize.x+"/"+mPreSize.y);
+            Log.e(TAG,"camera previewSize:"+mPreSize.x+"/"+mPreSize.y);
             return true;
         }
         return false;
@@ -145,7 +147,7 @@ public class KitkatCamera implements ICamera {
 
     public void setOnPreviewFrameCallbackWithBuffer(final PreviewFrameCallback callback) {
         if(mCamera!=null){
-            Log.e("wuwang","Camera set CallbackWithBuffer");
+            Log.e(TAG,"Camera set CallbackWithBuffer");
             mCamera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
                 @Override
                 public void onPreviewFrame(byte[] data, Camera camera) {

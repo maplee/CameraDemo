@@ -17,11 +17,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.matt.camera.FrameCallback;
-import com.matt.camera.controller.CameraController;
 import com.matt.camera.filter.AFilter;
 import com.matt.camera.filter.Beauty;
-import com.matt.camera.utils.Utils;
+import com.matt.camera.open.CameraController;
+import com.matt.camera.open.FrameCallback;
 
 import java.io.File;
 import java.nio.ByteBuffer;

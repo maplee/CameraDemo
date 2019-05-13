@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.matt.camera.FrameCallback;
+import com.matt.camera.open.FrameCallback;
 import com.matt.camera.Renderer;
 import com.matt.camera.filter.AFilter;
 import com.matt.camera.filter.GroupFilter;

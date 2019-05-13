@@ -1,4 +1,4 @@
-package com.matt.camera;
+package com.matt.camera.open;
 
 /**
  * Description:

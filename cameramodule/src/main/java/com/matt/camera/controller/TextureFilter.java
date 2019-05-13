@@ -12,6 +12,7 @@ import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.util.Log;
 
+import com.matt.camera.BuildConfig;
 import com.matt.camera.filter.AFilter;
 import com.matt.camera.filter.CameraFilter;
 import com.matt.camera.utils.EasyGlUtils;
@@ -23,6 +24,7 @@ import java.nio.ByteBuffer;
  * Description:
  */
 public class TextureFilter extends AFilter {
+    private static final String TAG = "TextureFilter";
 
     private CameraFilter mFilter;
     private int width=0;
@@ -86,7 +88,9 @@ public class TextureFilter extends AFilter {
         GLES20.glViewport(0,0,width,height);
         mFilter.setTextureId(mCameraTexture[0]);
         mFilter.draw();
-        Log.e("wuwang","textureFilter draw");
+        if (BuildConfig.DEBUG) {
+            Log.i(TAG,"textureFilter draw");
+        }
         EasyGlUtils.unBindFrameBuffer();
 
         if(a){

@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keepparameternames
+-renamesourcefileattribute seven
+-keepattributes Exceptions,InnerClasses,Signature,Deprecated,SourceFile,LineNumberTable,EnclosingMethod
+-optimizationpasses 1 # 指定代码的压缩级别
+-keep class com.matt.camera.open.* {*;}
+-keep class com.matt.camera.filter.* {*;}
+
