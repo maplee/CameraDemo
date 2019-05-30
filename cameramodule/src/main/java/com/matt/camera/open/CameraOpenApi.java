@@ -11,8 +11,7 @@ import com.matt.camera.open.filter.AFilter;
 import com.matt.camera.open.model.Size;
 
 /**
- * Author:Created by jiaguofeng on 2019/5/30.
- * Email:jiaguofeng@inno72.com
+ * Author:Created by matt on 2019/5/30.
  */
 public class CameraOpenApi {
     private static final String TAG = "CameraOpenApi";
