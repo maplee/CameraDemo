@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Manifest.permission.INTERNET,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO,
     };
 
     @Override
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.main_camera).setOnClickListener(this);
+        findViewById(R.id.main_video).setOnClickListener(this);
         // 授权
         if (!hasAllPermissionsGranted()) {
             requestCameraPermissions();
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (view.getId() == R.id.main_camera) {
             startActivity(new Intent(getApplicationContext(), CameraDemoActivty.class));
+        }else if (view.getId() == R.id.main_video) {
+            startActivity(new Intent(getApplicationContext(), VideoDemoActivity.class));
         }
     }
 

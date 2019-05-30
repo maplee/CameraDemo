@@ -9,11 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.matt.camera.open.FrameCallback;
 import com.matt.camera.Renderer;
-import com.matt.camera.filter.AFilter;
-import com.matt.camera.filter.GroupFilter;
-import com.matt.camera.filter.NoFilter;
+import com.matt.camera.open.filter.AFilter;
+import com.matt.camera.open.filter.GroupFilter;
+import com.matt.camera.open.filter.NoFilter;
+import com.matt.camera.open.IFrame;
 import com.matt.camera.utils.EasyGlUtils;
 import com.matt.camera.utils.MatrixUtils;
 
@@ -32,6 +32,8 @@ import javax.microedition.khronos.opengles.GL10;
  * 的Surface上，而是将内容绘制到外部提供的Surface、SurfaceHolder或者SurfaceTexture上。
  */
 public class TextureController implements GLSurfaceView.Renderer {
+
+    private static final String TAG = "TextureController";
 
     private Object surface;
 
@@ -58,9 +60,11 @@ public class TextureController implements GLSurfaceView.Renderer {
     private boolean isRecord=false;                             //录像flag
     private boolean isShoot=false;                              //一次拍摄flag
     private ByteBuffer[] outPutBuffer = new ByteBuffer[3];      //用于存储回调数据的buffer
-    private FrameCallback mFrameCallback;                       //回调
+    private IFrame mIFrame;                       //回调
     private int frameCallbackWidth, frameCallbackHeight;        //回调数据的宽高
     private int indexOutput=0;                                  //回调数据使用的buffer索引
+
+    private boolean mScaleMirror;
 
     public TextureController(Context context) {
         this.mContext=context;
@@ -129,6 +133,11 @@ public class TextureController implements GLSurfaceView.Renderer {
         mRenderer=renderer;
     }
 
+
+    public void setScaleMirror(boolean scaleMirror) {
+        mScaleMirror = scaleMirror;
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         mEffectFilter.create();
@@ -158,7 +167,9 @@ public class TextureController implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         MatrixUtils.getMatrix(SM,mShowType,
             mDataSize.x,mDataSize.y,width,height);
-        MatrixUtils.scale(SM,-1,1);
+        if(mScaleMirror){
+            MatrixUtils.scale(SM,-1,1);
+        }
         mShowFilter.setSize(width, height);
         mShowFilter.setMatrix(SM);
         mGroupFilter.setSize(mDataSize.x,mDataSize.y);
@@ -233,7 +244,7 @@ public class TextureController implements GLSurfaceView.Renderer {
         isShoot=true;
     }
 
-    public void setFrameCallback(int width,int height,FrameCallback frameCallback){
+    public void setFrameCallback(int width, int height, IFrame IFrame){
         this.frameCallbackWidth =width;
         this.frameCallbackHeight = height;
         if (frameCallbackWidth > 0 && frameCallbackHeight > 0) {
@@ -241,9 +252,9 @@ public class TextureController implements GLSurfaceView.Renderer {
                 outPutBuffer=new ByteBuffer[3];
             }
             calculateCallbackOM();
-            this.mFrameCallback = frameCallback;
+            this.mIFrame = IFrame;
         } else {
-            this.mFrameCallback = null;
+            this.mIFrame = null;
         }
     }
 
@@ -269,7 +280,7 @@ public class TextureController implements GLSurfaceView.Renderer {
 
     //需要回调，则缩放图片到指定大小，读取数据并回调
     private void callbackIfNeeded() {
-        if (mFrameCallback != null && (isRecord || isShoot)) {
+        if (mIFrame != null && (isRecord || isShoot)) {
             indexOutput = indexOutput++ >= 2 ? 0 : indexOutput;
             if (outPutBuffer[indexOutput] == null) {
                 outPutBuffer[indexOutput] = ByteBuffer.allocate(frameCallbackWidth *
@@ -290,7 +301,7 @@ public class TextureController implements GLSurfaceView.Renderer {
     private void frameCallback(){
         GLES20.glReadPixels(0, 0, frameCallbackWidth, frameCallbackHeight,
             GLES20.GL_RGBA, GLES20.GL_UNSIGNED_BYTE, outPutBuffer[indexOutput]);
-        mFrameCallback.onFrame(outPutBuffer[indexOutput].array(),0);
+        mIFrame.onFrame(outPutBuffer[indexOutput].array(),0);
     }
 
     public void create(int width,int height){
@@ -368,5 +379,7 @@ public class TextureController implements GLSurfaceView.Renderer {
         }
 
     }
+
+
 
 }

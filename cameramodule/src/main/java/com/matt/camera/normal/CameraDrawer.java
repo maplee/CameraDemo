@@ -13,8 +13,8 @@ import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.matt.camera.filter.AFilter;
-import com.matt.camera.filter.OesFilter;
+import com.matt.camera.open.filter.AFilter;
+import com.matt.camera.open.filter.OesFilter;
 import com.matt.camera.utils.Gl2Utils;
 
 import javax.microedition.khronos.egl.EGLConfig;

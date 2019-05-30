@@ -10,11 +10,9 @@ package com.matt.camera.controller;
 import android.content.res.Resources;
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
-import android.util.Log;
 
-import com.matt.camera.BuildConfig;
-import com.matt.camera.filter.AFilter;
-import com.matt.camera.filter.CameraFilter;
+import com.matt.camera.open.filter.AFilter;
+import com.matt.camera.open.filter.CameraFilter;
 import com.matt.camera.utils.EasyGlUtils;
 
 import java.nio.ByteBuffer;
@@ -88,9 +86,6 @@ public class TextureFilter extends AFilter {
         GLES20.glViewport(0,0,width,height);
         mFilter.setTextureId(mCameraTexture[0]);
         mFilter.draw();
-        if (BuildConfig.DEBUG) {
-            Log.i(TAG,"textureFilter draw");
-        }
         EasyGlUtils.unBindFrameBuffer();
 
         if(a){

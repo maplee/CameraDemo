@@ -5,7 +5,7 @@
  * Created by Wuwang on 2016/11/19
  * Copyright © 2016年 深圳哎吖科技. All rights reserved.
  */
-package com.matt.camera.filter;
+package com.matt.camera.open.filter;
 
 import android.content.res.Resources;
 import android.hardware.Camera;

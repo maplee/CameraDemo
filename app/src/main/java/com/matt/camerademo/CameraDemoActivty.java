@@ -17,25 +17,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.matt.camera.filter.AFilter;
-import com.matt.camera.filter.Beauty;
-import com.matt.camera.open.CameraController;
-import com.matt.camera.open.FrameCallback;
+import com.matt.camera.open.CameraOpenApi;
+import com.matt.camera.open.IFrame;
+import com.matt.camera.open.filter.AFilter;
+import com.matt.camera.open.filter.Beauty;
 
 import java.io.File;
 import java.nio.ByteBuffer;
 
 /**
- * Author:Created by jiaguofeng on 2019/3/25.
+ * Author:Created by matt on 2019/3/25.
  */
-public class CameraDemoActivty extends Activity implements FrameCallback {
+public class CameraDemoActivty extends Activity implements IFrame {
 
 
     private static final String TAG = "CameraDemoActivty";
 
     private Context mContext;
 
-    private CameraController mCameraController;
+    private CameraOpenApi mCameraOpenApi;
 
     private SurfaceView mSurfaceView;
     private ImageButton mShutterBtn;
@@ -69,22 +69,21 @@ public class CameraDemoActivty extends Activity implements FrameCallback {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getApplicationContext();
-        mCameraController = new CameraController(getApplicationContext());
+        mCameraOpenApi = new CameraOpenApi();
+
         setContentView(R.layout.activity_camera_demo);
         mImageShow = (ImageView) findViewById(R.id.iv_show_camera);
         mImageShow.setVisibility(View.GONE);
         mSurfaceView = (SurfaceView) findViewById(R.id.mSurface);
         mShutterBtn = (ImageButton) findViewById(R.id.btn_shutter);
         mFilterButton = (Button) findViewById(R.id.btn_filter);
-        mCameraController.setFrameCallback(this);
-        mCameraController.setSurfaceView(mSurfaceView);
         mShutterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mCameraController.takePhoto();
+                        mCameraOpenApi.takePhoto();
                     }
                 },100);
 
@@ -94,7 +93,7 @@ public class CameraDemoActivty extends Activity implements FrameCallback {
             @Override
             public void onClick(View v) {
                 if (isAdd) {
-                    mCameraController.removeAFilter(mAFilter);
+                    mCameraOpenApi.removeAFilter(mAFilter);
                 } else {
                     addAFilter();
                 }
@@ -103,14 +102,21 @@ public class CameraDemoActivty extends Activity implements FrameCallback {
             }
         });
 
+        mCameraOpenApi.init(getApplicationContext())
+                .camera(1)
+                .frameCallback(this)
+                .surfaceView(mSurfaceView)
+//                .scaleMirror(true)
+                .build();
+
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mCameraController != null) {
-            mCameraController.onResume();
+        if (mCameraOpenApi != null) {
+            mCameraOpenApi.onResume();
         }
         mFilterButton.performClick();
     }
@@ -118,24 +124,25 @@ public class CameraDemoActivty extends Activity implements FrameCallback {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mCameraController != null) {
-            mCameraController.onPause();
+        if (mCameraOpenApi != null) {
+            mCameraOpenApi.onPause();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mCameraController != null) {
-            mCameraController.destroy();
+        if (mCameraOpenApi != null) {
+            mCameraOpenApi.destory();
         }
     }
+
 
     private void addAFilter() {
         Beauty mBeautyFilter = new Beauty(getResources());
         mBeautyFilter.setFlag(6);
         mAFilter = mBeautyFilter;
-        mCameraController.addAFilter(mAFilter);
+        mCameraOpenApi.addAFilter(mAFilter);
     }
 
 
@@ -164,8 +171,8 @@ public class CameraDemoActivty extends Activity implements FrameCallback {
                         mImageShow.setImageBitmap(bitmap);
                         mFilterButton.setVisibility(View.GONE);
                         mImageShow.setVisibility(View.VISIBLE);
-                        if (mCameraController != null) {
-                            mCameraController.destroy();
+                        if (mCameraOpenApi != null) {
+                            mCameraOpenApi.destory();
                         }
                     }
                 });

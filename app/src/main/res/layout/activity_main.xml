@@ -11,6 +11,15 @@
         android:layout_centerInParent="true"
         android:text="Camera" />
 
+    <Button
+        android:id="@+id/main_video"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_camera"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="Video" />
+
 
 
 </RelativeLayout>

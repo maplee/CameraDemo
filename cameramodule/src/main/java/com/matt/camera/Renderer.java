@@ -7,7 +7,12 @@
  */
 package com.matt.camera;
 
+import android.media.MediaRecorder;
 import android.opengl.GLSurfaceView;
+import android.util.Size;
+import android.view.SurfaceView;
+
+import com.matt.camera.controller.TextureController;
 
 /**
  * Description:
@@ -15,5 +20,21 @@ import android.opengl.GLSurfaceView;
 public interface Renderer extends GLSurfaceView.Renderer {
 
     void onDestroy();
+
+    void setRecordMode(boolean isRecord);
+
+    void setTextureController(TextureController textureController);
+
+    void setSurfaceView(SurfaceView surfaceView);
+
+    void setMediaRecorder(MediaRecorder mediaRecorder);
+
+    Integer getSensorOrientation();
+
+    Size getPreviewSize();
+
+    Size getVideoSize();
+
+    void setCustomPreviewSize(com.matt.camera.open.model.Size customPreviewSize);
 
 }
