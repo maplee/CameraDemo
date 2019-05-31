@@ -268,7 +268,7 @@ public class CameraController {
         if (mTextureController != null) {
             mTextureController.onResume();
         }
-        prepareRecord();
+//        prepareRecord();
     }
 
     public void onPause() {
@@ -290,16 +290,16 @@ public class CameraController {
 
     public void prepareRecord() {
         outputPath = videoPath + "video_" + System.currentTimeMillis() + ".mp4";
-        File file = new File(outputPath);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                if (BuildConfig.DEBUG) {
-                    Log.e(TAG, "prepareRecord: ", e);
-                }
-            }
-        }
+//        File file = new File(outputPath);
+//        if (!file.exists()) {
+//            try {
+//                file.createNewFile();
+//            } catch (IOException e) {
+//                if (BuildConfig.DEBUG) {
+//                    Log.e(TAG, "prepareRecord: ", e);
+//                }
+//            }
+//        }
         mMediaRecorder = new MediaRecorder();
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);

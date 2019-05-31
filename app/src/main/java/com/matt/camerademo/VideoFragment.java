@@ -69,7 +69,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                 .videoMode(true)
                 .surfaceView(mSurfaceView)
 //                .scaleMirror(true)
-                .videoPath("/sdcard/Documents/inno72/video/")
+                .videoPath("/sdcard/video/")
                 .videoCallback(new IVideo() {
                     @Override
                     public void result(String outputPath) {
