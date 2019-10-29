@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -102,8 +103,20 @@ public class CameraDemoActivty extends Activity implements IFrame {
             }
         });
 
+        int cameraId = -1;
+        int numberOfCameras = Camera.getNumberOfCameras();
+        for (int i = 0; i < numberOfCameras; i++) {
+            Camera.CameraInfo info = new Camera.CameraInfo();
+            Camera.getCameraInfo(i, info);
+            Log.i(TAG, "onCreate: "+info.facing);
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                cameraId = i;
+                break;
+            }
+        }
+
         mCameraOpenApi.init(getApplicationContext())
-                .camera(1)
+                .camera(cameraId)
                 .frameCallback(this)
                 .surfaceView(mSurfaceView)
 //                .scaleMirror(true)

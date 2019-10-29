@@ -3,17 +3,20 @@ package com.matt.camerademo;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
+    private int mCameraID =-1;
     //相机权限
     private static final int REQUEST_CAMERA_PERMISSIONS = 1;
     private static final String[] CAMERA_PERMISSIONS = {
@@ -30,10 +33,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         findViewById(R.id.main_camera).setOnClickListener(this);
         findViewById(R.id.main_video).setOnClickListener(this);
+        findViewById(R.id.main_back).setOnClickListener(this);
         // 授权
         if (!hasAllPermissionsGranted()) {
             requestCameraPermissions();
         }
+        int numberOfCameras = Camera.getNumberOfCameras();
+        Log.i(TAG, "onCreate: numberOfCameras:"+numberOfCameras);
+        for (int i = 0; i < numberOfCameras; i++) {
+            Camera.CameraInfo info = new Camera.CameraInfo();
+            Camera.getCameraInfo(i, info);
+            Log.i(TAG, "onCreate: "+info.facing);
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                mCameraID = i;
+                break;
+            }
+        }
+        Log.i(TAG, "onCreate: cameraId:"+mCameraID);
     }
 
 
@@ -43,6 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestCameraPermissions();
             return;
         }
+        if (view.getId() == R.id.main_back) {
+            finish();
+        }
+        if(mCameraID == -1){
+            Toast.makeText(this,"没有识别到摄像头",Toast.LENGTH_LONG).show();
+            return;
+        }
+
         if (view.getId() == R.id.main_camera) {
             startActivity(new Intent(getApplicationContext(), CameraDemoActivty.class));
         }else if (view.getId() == R.id.main_video) {

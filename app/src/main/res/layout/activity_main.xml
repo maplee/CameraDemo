@@ -20,6 +20,15 @@
         android:layout_centerHorizontal="true"
         android:text="Video" />
 
+    <Button
+        android:id="@+id/main_back"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_video"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:text="返回" />
+
 
 
 </RelativeLayout>
